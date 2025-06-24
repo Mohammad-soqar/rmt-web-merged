@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../CSS/registrations.css"; // Import custom CSS for styling
-import RmtsLogo from "../../public/RMTS.jpeg";
+import RmtsLogo from "../../src/assets/RMTS.jpeg";
 
 // Reusable components
 import TextField from "../components/TextField";

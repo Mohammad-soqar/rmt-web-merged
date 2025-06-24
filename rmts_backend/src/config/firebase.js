@@ -1,20 +1,16 @@
 const firebase = require("firebase/app");
-const admin = require('firebase-admin');
-const { 
-  getAuth, 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  signOut, 
-  sendEmailVerification, 
+const admin = require("firebase-admin");
+const {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  sendEmailVerification,
   sendPasswordResetEmail
 } = require("firebase/auth");
 
-
-// Use require to load the service account JSON file
-//hamza
-//const serviceAccount = require("C:\\Users\\GT\\Desktop\\rmts-web\\firebaseservice.json"); // Update with the correct path to your firebaseservice.json file
-//ahmed
-const serviceAccount = require("C:\\Users\\97155\\Desktop\\RMTHAMZACODE\\Draft one\\Firebase-authentication-Express.js-main\\firebaseservice.json"); // Update with the correct path to your firebaseservice.json file
+// Load your Firebase Admin service account
+const serviceAccount = require("./firebaseservice.json"); // adjust path if needed
 
 // Initialize Firebase Admin SDK
 admin.initializeApp({
@@ -32,7 +28,7 @@ const firebaseConfig = {
   measurementId: "G-5X3BK2CFFE",
 };
 
-// Initialize Firebase
+// Initialize Firebase client SDK
 firebase.initializeApp(firebaseConfig);
 
 module.exports = {

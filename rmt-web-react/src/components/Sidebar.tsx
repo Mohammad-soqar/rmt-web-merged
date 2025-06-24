@@ -29,7 +29,7 @@ const Sidebar = () => {
 
           <li>
             <img src="/glove.png" />
-            <Link to="/AssignCreate">AssignCreate Glove</Link>
+            <Link to="/AssignCreate">Glove Management</Link>
           </li>
           <li>
             <img src="/calendar.png" />

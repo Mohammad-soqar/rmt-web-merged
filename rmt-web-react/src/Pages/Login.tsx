@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import TextField from "../components/TextField";
 import Alert from "../components/Alert";
-import RmtsLogo from "../../public/RMTS.jpeg";
+import RmtsLogo from "../../src/assets/RMTS.jpeg";
 
 import "../CSS/login.css";
 
