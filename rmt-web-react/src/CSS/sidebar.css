@@ -17,7 +17,7 @@
   }
   
   .profile {
-    width: 150px;
+    width: 160px;
     height: 150px;
     border-radius: 50%;
     display: flex;
@@ -41,7 +41,7 @@
   
   
   .sidebar-nav li {
-    margin: 40px 0;
+    margin: 30px 0;
     display: flex;
       gap: 10px;
       align-items: center;
@@ -65,4 +65,10 @@
   }
    .logoutButton{
     border: none;
+  }
+  .sidebar-logo{
+    max-width: 200%;
+    height: 105%;
+    margin-top: 0.5rem;
+  
   }

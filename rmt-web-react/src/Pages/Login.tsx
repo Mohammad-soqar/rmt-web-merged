@@ -51,10 +51,10 @@ const Login: React.FC = () => {
     <body>
       <div className="page">
         <div className="containerrr">
-          <div className="left">
-            <div className="image_title">RMTS</div>
-            <img src="../../public/login.png" />
-          </div>
+          
+            <div className="image_title"><img src="./src/assets/rmt_logo.png"/></div>
+            
+          
           <div className="right">
             <div className="title">Login</div>
             <div className="subtitle">Access to Dashboard</div>

@@ -48,7 +48,7 @@ const PatientsList: React.FC = () => {
     <div className="patients-page">
       <header className="patients-header">
         <h1>PATIENTS</h1>
-        <p>List of registered patients for future reference</p>
+        <p>List of registered patients</p>
       </header>
 
       <div className="patients-toolbar">

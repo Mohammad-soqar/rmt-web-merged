@@ -1,6 +1,6 @@
 /* AppointmentPage.css */
 :root {
-  --accent-primary: #4a90e2;
+  --accent-primary: #2A638B;
   --accent-secondary: #6c7a89;
   --bg-page: #f5f7fa;
   --bg-card: #ffffff;
@@ -39,6 +39,7 @@
 .appointments-controls {
   display: flex;
   gap: 0.5rem;
+  margin-right: 1rem;
 }
 
 .btn {
@@ -129,4 +130,11 @@
   .appointment-item strong {
     width: auto;
   }
+}
+.btn-app{
+  background-color: #2A638B;
+border-radius: 6px;
+border-style: none;
+color:#ececec;
+
 }

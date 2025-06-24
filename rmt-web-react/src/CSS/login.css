@@ -14,8 +14,15 @@
 
 .containerrr {
     height: 35rem;
-    width: 60vw;
+    width: 40vw;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 50px;
+     background-color: #EEF1F6;
+     padding: 50px 0px;
+     justify-content: center;
+    
 
 }
 .horizentalline{
@@ -27,25 +34,15 @@
 
 
 .left {
-    width: fit-content;
+    width: 40%;
     height: 100%;
     display: flex;
     align-items: center;
     position: relative;
+    
 
 }
-.left::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(42, 99, 139, 0.5); /* 0.5 sets the opacity, adjust as needed */
-    pointer-events: none; /* allows clicks to pass through the overlay */
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-  }
+
 
 .left img {
     width: 100%;
@@ -55,28 +52,26 @@
 
 }
 
-.image_title {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.image_title img {
+    
+    height: 50px;
     color: white;
-    z-index: 10;
     font-family: "Glass Antiqua", cursive;
     font-size: 5rem;
+    
+    
 }
 
 
 .right {
-    width: 50%;
+    
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #EEF1F6;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
+   
+    
     overflow-y: hidden;
 }
 

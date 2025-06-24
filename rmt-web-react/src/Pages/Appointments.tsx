@@ -62,7 +62,7 @@ const AppointmentsPage: React.FC = () => {
         <div className="appointments-controls">
           <button
             onClick={() => setShowList(false)}
-            className="btn btn-primary"
+            className="btn-app"
           >
             Calendar View
           </button>
@@ -76,7 +76,7 @@ const AppointmentsPage: React.FC = () => {
             onClick={() => {
               /* open add-appointment modal */
             }}
-            className="btn btn-primary"
+            className="btn-app"
           >
             Add Appointment
           </button>

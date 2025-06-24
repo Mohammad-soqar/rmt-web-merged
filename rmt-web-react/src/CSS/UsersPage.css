@@ -1,5 +1,5 @@
 :root {
-    --primary: #72787E;
+    --primary: #2A638B;
     --bg-default: white;
     --bg-surface: white;
     --text-primary: white;
@@ -22,7 +22,7 @@
   .patients-header h1 {
     margin: 0;
     font-size: 2rem;
-    color: var(--primary);
+    color: #2c2c2c
   }
   
   .patients-header p {
