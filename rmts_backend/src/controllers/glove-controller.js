@@ -7,14 +7,14 @@ class GloveController {
       const { 
         model,
         productionDate,
-        status,
-        version,
+/*         status,
+ */        version,
 
       } = req.body;
       if (
         !model ||
         !productionDate ||
-        !status ||
+       /*  !status || */
         !version 
         
       ) {
@@ -30,7 +30,7 @@ class GloveController {
         lastUpdated: new Date(),
         model,
         productionDate,
-        status,
+        /* status */
         version,
         patientID: null,
         createdAt: new Date() // or a serverTimestamp if using Admin SDK

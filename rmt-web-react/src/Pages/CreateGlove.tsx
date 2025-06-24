@@ -78,7 +78,7 @@ const CreateGlove: React.FC = () => {
           required
         />
 
-        <SelectField
+        {/* <SelectField
           label="Status"
           name="status"
           value={status}
@@ -90,7 +90,7 @@ const CreateGlove: React.FC = () => {
             { label: "Maintenance", value: "maintenance" },
           ]}
           required
-        />
+        /> */}
 
         <TextField
           label="Version"

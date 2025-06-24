@@ -1,0 +1,38 @@
+.container { position: relative; margin-bottom: 1rem; }
+.label { display: block; margin-bottom: .25rem; }
+.control {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: text;
+}
+.input {
+  flex: 1;
+  border: none;
+  padding: .5rem;
+  outline: none;
+}
+.arrow {
+  padding: 0 .5rem;
+  user-select: none;
+}
+.options {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  background: #fff;
+  z-index: 10;
+}
+.option {
+  padding: .5rem;
+  cursor: pointer;
+}
+.option:hover,
+.selected {
+  background: #f0f0f0;
+}

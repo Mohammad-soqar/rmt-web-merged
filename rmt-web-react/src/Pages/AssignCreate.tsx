@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextField from "../components/TextField";
-import SelectField from "../components/SelectField";
 import Alert from "../components/Alert";
+import Switch from "../components/Switch";
+import SearchableSelect from "../components/searchPatient"; // ← our new component
 import styles from "../CSS/AssignCreate.module.css";
-import Switch from "../components/Switch"; // Import the Switch component
 
 interface Patient {
   id: string;
@@ -23,7 +23,6 @@ const AssignCreate: React.FC = () => {
   const [selectedGlove, setSelectedGlove] = useState("");
   const [model, setModel] = useState("");
   const [productionDate, setProductionDate] = useState("");
-  const [status, setStatus] = useState("");
   const [version, setVersion] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -65,10 +64,7 @@ const AssignCreate: React.FC = () => {
       const res = await fetch("http://localhost:5000/gloves/assign", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          gloveId: selectedGlove,
-          patientId: selectedPatient,
-        }),
+        body: JSON.stringify({ gloveId: selectedGlove, patientId: selectedPatient }),
       });
       if (!res.ok) {
         const err = await res.json();
@@ -85,7 +81,7 @@ const AssignCreate: React.FC = () => {
     e.preventDefault();
     setError("");
     setMessage("");
-    if (!model || !productionDate || !status || !version) {
+    if (!model || !productionDate || !version) {
       setError("Please fill in all required fields.");
       return;
     }
@@ -93,7 +89,7 @@ const AssignCreate: React.FC = () => {
       const res = await fetch("http://localhost:5000/gloves", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model, productionDate, status, version }),
+        body: JSON.stringify({ model, productionDate, version }),
       });
       if (!res.ok) {
         const err = await res.json();
@@ -105,6 +101,22 @@ const AssignCreate: React.FC = () => {
       setError(e.message);
     }
   };
+
+  // build options arrays
+  const patientOptions = [
+    { label: "Select patient", value: "" },
+    ...patients.map((p) => ({
+      label: p.fullName || p.id,
+      value: p.id,
+    })),
+  ];
+  const gloveOptions = [
+    { label: "Select glove", value: "" },
+    ...gloves.map((g) => ({
+      label: g.model ? `${g.model} — ${g.status}` : g.id,
+      value: g.id,
+    })),
+  ];
 
   return (
     <div className={styles.container}>
@@ -122,6 +134,7 @@ const AssignCreate: React.FC = () => {
           }}
         />
       </div>
+
       {error && (
         <div className={styles.alertError}>
           <Alert type="error" message={error} />
@@ -139,38 +152,24 @@ const AssignCreate: React.FC = () => {
       >
         {isAssignMode ? (
           <>
-            <div className={styles.formField}>
-              <SelectField
-                label="Select Patient"
-                name="patient"
-                value={selectedPatient}
-                onChange={(e) => setSelectedPatient(e.target.value)}
-                options={[
-                  { label: "Select patient", value: "" },
-                  ...patients.map((p) => ({
-                    label: p.fullName || p.id,
-                    value: p.id,
-                  })),
-                ]}
-                required
-              />
-            </div>
-            <div className={styles.formField}>
-              <SelectField
-                label="Select Glove"
-                name="glove"
-                value={selectedGlove}
-                onChange={(e) => setSelectedGlove(e.target.value)}
-                options={[
-                  { label: "Select glove", value: "" },
-                  ...gloves.map((g) => ({
-                    label: g.model ? `${g.model} — ${g.status}` : g.id,
-                    value: g.id,
-                  })),
-                ]}
-                required
-              />
-            </div>
+            <SearchableSelect
+              label="Select Patient"
+              options={patientOptions}
+              value={selectedPatient}
+              onChange={setSelectedPatient}
+              placeholder="Type to search…"
+              required
+            />
+
+            <SearchableSelect
+              label="Select Glove"
+              options={gloveOptions}
+              value={selectedGlove}
+              onChange={setSelectedGlove}
+              placeholder="Type to search…"
+              required
+            />
+
             <div className={styles.assignBtnContainer}>
               <button type="submit" className={styles.assignBtn}>
                 Assign
@@ -195,22 +194,6 @@ const AssignCreate: React.FC = () => {
                 type="date"
                 value={productionDate}
                 onChange={(e) => setProductionDate(e.target.value)}
-                required
-              />
-            </div>
-            <div className={styles.formField}>
-              <SelectField
-                label="Status"
-                name="status"
-                labelClassName="inputLabel"
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                options={[
-                  { label: "Select status", value: "" },
-                  { label: "Active", value: "active" },
-                  { label: "Inactive", value: "inactive" },
-                  { label: "Maintenance", value: "maintenance" },
-                ]}
                 required
               />
             </div>
