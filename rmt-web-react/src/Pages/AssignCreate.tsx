@@ -71,7 +71,7 @@ const AssignCreate: React.FC = () => {
         throw new Error(err.error || "Assignment failed.");
       }
       const data = await res.json();
-      setMessage(`Glove assigned successfully! Glove ID: ${data.gloveId}`);
+      setMessage("Glove assigned successfully!");
     } catch (e: any) {
       setError(e.message);
     }
@@ -96,7 +96,7 @@ const AssignCreate: React.FC = () => {
         throw new Error(err.error || "Glove creation failed.");
       }
       const data = await res.json();
-      setMessage(`Glove created successfully! ID: ${data.gloveId}`);
+      setMessage("Glove created successfully!");
     } catch (e: any) {
       setError(e.message);
     }

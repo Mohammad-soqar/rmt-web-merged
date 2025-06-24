@@ -220,3 +220,19 @@
 .appt-icon { /* … */ }
 .appt-body .appt-date { /* … */ }
 .appt-body .appt-desc { /* … */ }
+
+.generate-report-btn{
+   display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  margin-left: 0rem;
+  padding: 15px 10px;
+  background: linear-gradient(135deg, #4CAF50, #81C784);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+
+}

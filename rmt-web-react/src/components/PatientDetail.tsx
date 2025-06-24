@@ -1,4 +1,3 @@
-// PatientDetail.tsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import "../CSS/PatientDetail.css";
@@ -27,7 +26,6 @@ interface PatientDetailData {
   emergencyContact: string;
   profilePictureUrl?: string;
   appointments: Appointment[];
-  reports: Report[];
 }
 
 const PatientDetail: React.FC = () => {
@@ -36,6 +34,8 @@ const PatientDetail: React.FC = () => {
   const [data, setData] = useState<PatientDetailData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
+  const [reports, setReports] = useState<Report[]>([]);
+  const [reportsLoading, setReportsLoading] = useState(true);
 
   useEffect(() => {
     if (!patientId) return;
@@ -51,7 +51,6 @@ const PatientDetail: React.FC = () => {
         if (!resp.ok) throw new Error("Failed to load patient details");
         const json = await resp.json();
 
-        // Normalize appointments
         const appointments: Appointment[] = (json.appointments || []).map(
           (a: any) => {
             let dt: Date;
@@ -75,8 +74,7 @@ const PatientDetail: React.FC = () => {
           phonenumber: json.phonenumber,
           emergencyContact: json.emergencyContact,
           profilePictureUrl: json.profilePictureUrl,
-          appointments,
-          reports: json.reports || [],
+          appointments
         });
       } catch (e: any) {
         setError(e.message || "Error loading patient");
@@ -86,6 +84,60 @@ const PatientDetail: React.FC = () => {
     };
     fetchDetail();
   }, [patientId]);
+
+  useEffect(() => {
+    if (!patientId) return;
+    const fetchReports = async () => {
+      try {
+        const resp = await fetch(`http://localhost:5000/api/reports/patient/${patientId}`, {
+          credentials: "include"
+        });
+        if (!resp.ok) throw new Error("Failed to load reports");
+        const json = await resp.json();
+        setReports(json);
+      } catch (e: any) {
+        console.error("Failed to fetch reports", e.message);
+      } finally {
+        setReportsLoading(false);
+      }
+    };
+    fetchReports();
+  }, [patientId]);
+
+  const handleGenerateReport = async () => {
+    if (!patientId) return;
+    try {
+      setReportsLoading(true);
+      const resp = await fetch(`http://localhost:5000/generate_report`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ patientId }),
+        credentials: "include"
+      });
+      if (!resp.ok) throw new Error(`Failed to generate report (${resp.status})`);
+      
+
+      alert("Report generated successfully!");
+
+      // Refetch reports
+      const reportsResp = await fetch(`http://localhost:5000/api/reports/patient/${patientId}`, {
+        credentials: "include"
+      });
+      if (!reportsResp.ok) throw new Error("Failed to refresh reports");
+      const reportsJson = await reportsResp.json();
+      setReports(reportsJson);
+
+    } catch (err) {
+  console.error("🔥 FULL ERROR STACK:");
+  console.error(err);  // This will print the full error object / stack trace
+  setError("Failed to generate report");
+}
+ finally {
+      setReportsLoading(false);
+    }
+  };
 
   if (loading) return <div className="detail-loading">Loading patient...</div>;
   if (error) return <div className="detail-error">Error: {error}</div>;
@@ -97,8 +149,7 @@ const PatientDetail: React.FC = () => {
     phonenumber,
     emergencyContact,
     profilePictureUrl,
-    appointments,
-    reports,
+    appointments
   } = data;
 
   return (
@@ -151,7 +202,16 @@ const PatientDetail: React.FC = () => {
 
       <section className="detail-section">
         <h3>Patient Reports</h3>
-        {reports.length > 0 ? (
+        <button
+          onClick={handleGenerateReport}
+          className="generate-report-btn"
+          disabled={reportsLoading}
+        >
+          Generate Report
+        </button>
+        {reportsLoading ? (
+          <p>Loading reports...</p>
+        ) : reports.length > 0 ? (
           <div className="reports-list">
             {reports.map((r) => (
               <Link
@@ -159,38 +219,24 @@ const PatientDetail: React.FC = () => {
                 key={r.id}
                 className="report-item"
               >
-                <p>
-                  <strong>Report ID:</strong> {r.id}
-                </p>
+                <p><strong>Report ID:</strong> {r.id}</p>
                 {r.conditionFlag && (
-                  <p>
-                    <strong>Condition:</strong> {r.conditionFlag}
-                  </p>
+                  <p><strong>Condition:</strong> {r.conditionFlag}</p>
                 )}
                 {r.actual !== undefined && (
-                  <p>
-                    <strong>Actual:</strong> {r.actual}
-                  </p>
+                  <p><strong>Actual:</strong> {r.actual}</p>
                 )}
                 {r.heartRate !== undefined && (
-                  <p>
-                    <strong>Heart Rate:</strong> {r.heartRate}
-                  </p>
+                  <p><strong>Heart Rate:</strong> {r.heartRate}</p>
                 )}
                 {r.predicted !== undefined && (
-                  <p>
-                    <strong>Predicted:</strong> {r.predicted}
-                  </p>
+                  <p><strong>Predicted:</strong> {r.predicted}</p>
                 )}
                 {r.pressure !== undefined && (
-                  <p>
-                    <strong>Pressure:</strong> {r.pressure}
-                  </p>
+                  <p><strong>Pressure:</strong> {r.pressure}</p>
                 )}
                 {r.temperature !== undefined && (
-                  <p>
-                    <strong>Temperature:</strong> {r.temperature}
-                  </p>
+                  <p><strong>Temperature:</strong> {r.temperature}</p>
                 )}
               </Link>
             ))}

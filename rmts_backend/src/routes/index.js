@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const verifyToken = require('../middleware');
+const { admin } = require("../config/firebase"); 
+
 
 const firebaseAuthController = require('../controllers/firebase-auth-controller');
 const DoctorController = require('../controllers/doctor-controller.js');
@@ -30,9 +32,31 @@ router.get(
 router.get('/showGloves', (req, res) => GloveAssigner.getGloves(req, res));
 router.get('/showAppointment', (req, res) => Appointment.listAppointments(req, res));
 router.get(
-  "/reports/:reportId",
+  "/reports/:patientId/:reportId",
   ReportController.getReportById
 );
+
+router.get('/api/reports/patient/:patientId', async (req, res) => {
+  const { patientId } = req.params;
+  try {
+    const snap = await admin.firestore()
+      .collection(`patients/${patientId}/reports`)
+      .get();
+
+    const reports = snap.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    res.status(200).json(reports);
+  } catch (err) {
+    console.error("Error fetching patient reports", err);
+    res.status(500).json({ error: "Failed to fetch reports" });
+  }
+});
+router.post("/generate_report", ReportController.generateReport);
+
+
 router.get(
   '/ShowAppointment',
   verifyToken,

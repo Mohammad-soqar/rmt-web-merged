@@ -67,4 +67,25 @@
   .report-detail__loading { color: var(--text-muted); }
   .report-detail__error { color: #d9534f; }
   .report-detail__empty { color: var(--text-muted); }
+
+  .download-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #4CAF50, #81C784);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.download-btn:hover {
+  background: linear-gradient(135deg, #388E3C, #66BB6A);
+  transform: scale(1.05);
+}
+
   
