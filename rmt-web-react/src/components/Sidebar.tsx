@@ -17,7 +17,7 @@ const Sidebar = () => {
       <div className="sidebar-header"></div>
       <nav className="sidebar-nav">
         <ul>
-          <div className="profile"> <img src="./src/assets/rmt_logo.png" className="sidebar-logo"/></div>
+          <div> <img src="./src/assets/rmt_logo.png" className="sidebar-logo"/></div>
           <li>
             <img src="/user.png" />
             <Link to="/create-patient">Create Patient</Link>
