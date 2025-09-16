@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import "../CSS/dashboard.css";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 
 const Dashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <h1 className="text-2xl font-bold mb-4">Doctor Dashboard</h1>
-
       {/* Button to navigate to create patient page */}
       <Link
         to="/create-patient"
@@ -31,7 +31,6 @@ const Dashboard: React.FC = () => {
           Profile
         </Link>
       </li>
-
       <li>
         <Link to="/assign-glove" className="text-blue-600 hover:underline">
           Assign Glove

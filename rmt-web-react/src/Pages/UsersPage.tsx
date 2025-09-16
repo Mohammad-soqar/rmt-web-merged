@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../CSS/UsersPage.css";
+import { useTranslation } from "react-i18next";
 
 interface Patient {
   id: string;
@@ -16,6 +17,10 @@ const PatientsList: React.FC = () => {
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
+  const { t, i18n } = useTranslation("patientsList");
+  const translate = (key: string, fallback: string, vars: any = {}): string =>
+    i18n.language === "tr" ? String(t(key, vars)) : fallback;
+
   useEffect(() => {
     const fetchPatients = async () => {
       try {
@@ -29,10 +34,12 @@ const PatientsList: React.FC = () => {
           setPatients(data);
         } else {
           const errorData = await response.json();
-          setError(errorData.error || "Failed to load patients");
+          setError(
+            errorData.error || translate("errorLoad", "Failed to load patients")
+          );
         }
       } catch {
-        setError("Error connecting to the server");
+        setError(translate("errorServer", "Error connecting to the server"));
       } finally {
         setLoading(false);
       }
@@ -41,32 +48,36 @@ const PatientsList: React.FC = () => {
   }, []);
 
   if (loading)
-    return <div className="patients-loading">Loading patients...</div>;
+    return (
+      <div className="patients-loading">
+        {translate("loading", "Loading patients...")}
+      </div>
+    );
   if (error) return <div className="patients-error">Error: {error}</div>;
 
   return (
     <div className="patients-page">
       <header className="patients-header">
-        <h1>PATIENTS</h1>
-        <p>List of registered patients</p>
+        <h1>{translate("title", "PATIENTS")}</h1>
+        <p>{translate("subtitle", "List of registered patients")}</p>
       </header>
 
       <div className="patients-toolbar">
         <button title="Columns" className="toolbar-btn">
-          Columns
+          {translate("toolbar.columns", "Columns")}
         </button>
         <button title="Filters" className="toolbar-btn">
-          Filters
+          {translate("toolbar.filters", "Filters")}
         </button>
         <button
           title="Create Patient"
           className="toolbar-btn"
           onClick={() => navigate("/create-patient")}
         >
-          Create Patient
+          {translate("toolbar.create", "Create Patient")}
         </button>
         <button title="Export" className="toolbar-btn">
-          Export
+          {translate("toolbar.export", "Export")}
         </button>
       </div>
 
@@ -74,10 +85,12 @@ const PatientsList: React.FC = () => {
         <table className="patients-table">
           <thead>
             <tr>
-              <th>Full Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Emergency Contact</th>
+              <th>{translate("table.fullName", "Full Name")}</th>
+              <th>{translate("table.email", "Email")}</th>
+              <th>{translate("table.phone", "Phone")}</th>
+              <th>
+                {translate("table.emergencyContact", "Emergency Contact")}
+              </th>
             </tr>
           </thead>
           <tbody>

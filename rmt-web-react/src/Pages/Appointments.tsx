@@ -60,10 +60,7 @@ const AppointmentsPage: React.FC = () => {
       <header className="appointments-header">
         <h2>My Appointments</h2>
         <div className="appointments-controls">
-          <button
-            onClick={() => setShowList(false)}
-            className="btn-app"
-          >
+          <button onClick={() => setShowList(false)} className="btn-app">
             Calendar View
           </button>
           <button

@@ -1,0 +1,16 @@
+{
+  "Appoitnment Detail": "Randevu Detayları",
+  "status": "Durum",
+  "start": "Başlangıç",
+  "end": "Bitiş",
+  "notes": "Notlar",
+  "patient": "Hasta",
+  "doctor": "Doktor",
+  "created": "Oluşturulma",
+  "updated": "Güncellenme",
+  "statuses": {
+    "upcoming": "Yaklaşan",
+    "completed": "Tamamlandı",
+    "canceled": "İptal Edildi"
+  }
+}

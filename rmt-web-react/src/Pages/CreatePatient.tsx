@@ -4,9 +4,16 @@ import TextField from "../components/TextField";
 import Alert from "../components/Alert";
 import "../CSS/CreatePatient.css";
 import SelectField from "../components/SelectField";
+import { useTranslation } from "react-i18next";
 
 const CreatePatient: React.FC = () => {
-  // --- State Management ---
+  const { t, i18n } = useTranslation("createPatient"); // ✅ get i18n object too
+  const currentLang = i18n.language;
+
+  // ✅ helper: if lang is Turkish → use translations, else fallback English
+  const translate = (key: string, fallback: string, vars: any = {}): string =>
+    i18n.language === "tr" ? String(t(key, vars)) : fallback;
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,15 +29,13 @@ const CreatePatient: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
-  // --- Handle Form Submission ---
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setMessage("");
 
-    // Validate
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError(translate("errors.passwordMismatch", "Passwords do not match."));
       return;
     }
     if (
@@ -45,7 +50,12 @@ const CreatePatient: React.FC = () => {
       !phonenumber ||
       !emergencyContact
     ) {
-      setError("Please fill in all required fields.");
+      setError(
+        translate(
+          "errors.requiredFields",
+          "Please fill in all required fields."
+        )
+      );
       return;
     }
 
@@ -70,16 +80,22 @@ const CreatePatient: React.FC = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        setMessage("Patient account created successfully!");
-        // Optionally, display a success message before navigating
-        // navigate("/dashboard");
+        await response.json();
+        setMessage(
+          translate("success", "Patient account created successfully!")
+        );
       } else {
         const errorData = await response.json();
-        setError(errorData.error || "Patient creation failed.");
+        setError(
+          errorData.error ||
+            translate("errors.failed", "Patient creation failed.")
+        );
       }
     } catch (err: any) {
-      setError(err.message || "Error connecting to the server.");
+      setError(
+        err.message ||
+          translate("errors.server", "Error connecting to the server.")
+      );
     }
   };
 
@@ -87,7 +103,7 @@ const CreatePatient: React.FC = () => {
     <div className="create-patient-page">
       <div className="CreatePatientHeader">
         <img src="../../public/user.png" alt="User" />
-        Create Patient
+        {translate("title", "Create Patient")}
       </div>
       <div className="CreatePatientBody">
         <form
@@ -100,7 +116,7 @@ const CreatePatient: React.FC = () => {
             <TextField
               containerClassName="inputContainer"
               labelClassName="inputLabel"
-              label="Full Name"
+              label={translate("fields.fullName", "Full Name")}
               name="fullName"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
@@ -111,7 +127,7 @@ const CreatePatient: React.FC = () => {
             <TextField
               containerClassName="inputContainer"
               labelClassName="inputLabel"
-              label="Age"
+              label={translate("fields.age", "Age")}
               name="age"
               type="number"
               value={age}
@@ -123,7 +139,7 @@ const CreatePatient: React.FC = () => {
             <TextField
               containerClassName="inputContainer"
               labelClassName="inputLabel"
-              label="Nationality"
+              label={translate("fields.nationality", "Nationality")}
               name="nationality"
               value={nationality}
               onChange={(e) => setNationality(e.target.value)}
@@ -135,7 +151,7 @@ const CreatePatient: React.FC = () => {
             <TextField
               containerClassName="inputContainer"
               labelClassName="inputLabel"
-              label="Birth Date"
+              label={translate("fields.birthDate", "Birth Date")}
               name="birthDate"
               type="date"
               value={birthDate}
@@ -147,7 +163,7 @@ const CreatePatient: React.FC = () => {
             <TextField
               containerClassName="inputContainer"
               labelClassName="inputLabel"
-              label="Phone Number"
+              label={translate("fields.phone", "Phone Number")}
               name="phonenumber"
               type="tel"
               value={phonenumber}
@@ -159,7 +175,7 @@ const CreatePatient: React.FC = () => {
             <TextField
               containerClassName="inputContainer"
               labelClassName="inputLabel"
-              label="Emergency Number"
+              label={translate("fields.emergencyContact", "Emergency Number")}
               name="emergencyContact"
               type="tel"
               value={emergencyContact}
@@ -172,7 +188,7 @@ const CreatePatient: React.FC = () => {
             <TextField
               containerClassName="inputContainer"
               labelClassName="inputLabel"
-              label="Email"
+              label={translate("fields.email", "Email")}
               name="email"
               type="email"
               value={email}
@@ -184,7 +200,7 @@ const CreatePatient: React.FC = () => {
             <TextField
               containerClassName="inputContainer"
               labelClassName="inputLabel"
-              label="Password"
+              label={translate("fields.password", "Password")}
               name="password"
               type="password"
               value={password}
@@ -196,7 +212,7 @@ const CreatePatient: React.FC = () => {
             <TextField
               containerClassName="inputContainer"
               labelClassName="inputLabel"
-              label="Confirm Password"
+              label={translate("fields.confirmPassword", "Confirm Password")}
               name="confirmPassword"
               type="password"
               value={confirmPassword}
@@ -209,34 +225,36 @@ const CreatePatient: React.FC = () => {
             <SelectField
               containerClassName="inputContainer"
               labelClassName="inputLabel"
-              label="Gender"
+              label={translate("fields.gender", "Gender")}
               name="gender"
               value={gender}
               onChange={(e) => setGender(e.target.value)}
               options={[
-                { label: "Select gender", value: "" },
-                { label: "Male", value: "male" },
-                { label: "Female", value: "female" },
+                {
+                  label: translate("fields.selectGender", "Select gender"),
+                  value: "",
+                },
+                { label: translate("fields.male", "Male"), value: "male" },
+                {
+                  label: translate("fields.female", "Female"),
+                  value: "female",
+                },
               ]}
               required
             />
           </div>
         </form>
         <hr className="grid-divider" />
-
         <div className="button-container">
           <button
             type="submit"
             form="create-patient-form"
             className="CreatePatientButton"
           >
-            Create Patient
+            {translate("submit", "Create Patient Account")}
           </button>
         </div>
       </div>
-      {/* The form below uses a 3x3 grid layout for the 9 input fields */}
-
-      {/* Horizontal line below the grid */}
 
       {error && (
         <div className="alert-popup">

@@ -1,0 +1,21 @@
+{
+  "listTitle": "Randevular",
+  "create": "Randevu Oluştur",
+  "upcoming": "Yaklaşan Randevular",
+  "past": "Geçmiş Randevular",
+  "filters": {
+    "all": "Tümü",
+    "upcoming": "Yaklaşan",
+    "completed": "Tamamlanan",
+    "canceled": "İptal Edilen"
+  },
+  "actions": {
+    "view": "Görüntüle",
+    "edit": "Düzenle",
+    "delete": "Sil"
+  },
+  "messages": {
+    "loading": "Randevular yükleniyor...",
+    "none": "Hiç randevu bulunamadı."
+  }
+}

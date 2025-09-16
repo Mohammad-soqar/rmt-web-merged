@@ -1,0 +1,26 @@
+{
+  "title": "Hasta Oluştur",
+  "submit": "Hasta Kaydı Oluştur",
+  "success": "Hasta hesabı başarıyla oluşturuldu!",
+  "errors": {
+    "passwordMismatch": "Şifreler uyuşmuyor.",
+    "requiredFields": "Lütfen tüm gerekli alanları doldurun.",
+    "failed": "Hasta kaydı başarısız oldu.",
+    "server": "Sunucuya bağlanırken hata oluştu."
+  },
+  "fields": {
+    "fullName": "Ad Soyad",
+    "age": "Yaş",
+    "nationality": "Uyruk",
+    "birthDate": "Doğum Tarihi",
+    "phone": "Telefon Numarası",
+    "emergencyContact": "Acil Durum Numarası",
+    "email": "E-posta",
+    "password": "Şifre",
+    "confirmPassword": "Şifreyi Onayla",
+    "gender": "Cinsiyet",
+    "selectGender": "Cinsiyet Seçin",
+    "male": "Erkek",
+    "female": "Kadın"
+  }
+}

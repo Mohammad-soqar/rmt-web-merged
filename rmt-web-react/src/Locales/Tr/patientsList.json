@@ -1,0 +1,19 @@
+{
+  "title": "HASTALAR",
+  "subtitle": "Kayıtlı hastaların listesi",
+  "loading": "Hastalar yükleniyor...",
+  "errorLoad": "Hastalar yüklenemedi",
+  "errorServer": "Sunucuya bağlanırken hata oluştu",
+  "toolbar": {
+    "columns": "Sütunlar",
+    "filters": "Filtreler",
+    "create": "Hasta Oluştur",
+    "export": "Dışa Aktar"
+  },
+  "table": {
+    "fullName": "Ad Soyad",
+    "email": "E-posta",
+    "phone": "Telefon",
+    "emergencyContact": "Acil Durum Numarası"
+  }
+}

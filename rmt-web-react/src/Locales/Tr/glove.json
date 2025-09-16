@@ -1,0 +1,24 @@
+{
+  "assignTitle": "Eldiveni Hastaya Ata",
+  "createTitle": "Yeni Eldiven Oluştur",
+
+  "selectPatient": "Hasta Seç",
+  "selectGlove": "Eldiven Seç",
+  "searchPlaceholder": "Aramak için yazın…",
+
+  "model": "Model",
+  "productionDate": "Üretim Tarihi",
+  "version": "Versiyon",
+
+  "assignBtn": "Ata",
+  "createBtn": "Eldiven Oluştur",
+
+  "messages": {
+    "assignSuccess": "Eldiven başarıyla hastaya atandı!",
+    "createSuccess": "Eldiven başarıyla oluşturuldu!",
+    "assignError": "Eldiven atama başarısız oldu.",
+    "createError": "Eldiven oluşturma başarısız oldu.",
+    "required": "Lütfen tüm gerekli alanları doldurun.",
+    "selectBoth": "Lütfen hem hasta hem eldiven seçin."
+  }
+}

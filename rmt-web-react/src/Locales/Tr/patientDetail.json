@@ -1,0 +1,32 @@
+{
+  "loading": "Hasta yükleniyor...",
+  "error": "Hata: {{error}}",
+  "notFound": "Hasta bulunamadı.",
+  "back": "← Geri",
+  "email": "E-posta",
+  "phone": "Telefon",
+  "emergency": "Acil",
+  "appointments": {
+    "title": "Yaklaşan Randevular",
+    "none": "Yaklaşan randevu yok."
+  },
+  "reports": {
+    "title": "Hasta Raporları",
+    "generate": "Rapor Oluştur",
+    "loading": "Raporlar yükleniyor...",
+    "none": "Hiç rapor bulunamadı.",
+    "id": "Rapor ID",
+    "condition": "Durum",
+    "actual": "Gerçek",
+    "heartRate": "Nabız",
+    "predicted": "Tahmin",
+    "pressure": "Basınç",
+    "temperature": "Sıcaklık",
+    "createdAt": "Oluşturulma Tarihi",
+    "unknownDate": "Bilinmeyen tarih"
+  },
+  "messages": {
+    "generateSuccess": "Rapor başarıyla oluşturuldu!",
+    "generateError": "Rapor oluşturulamadı"
+  }
+}

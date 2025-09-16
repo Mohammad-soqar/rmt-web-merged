@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import "../CSS/PatientDetail.css";
+import { useTranslation } from "react-i18next";
 
 interface Appointment {
   id: string;
@@ -10,12 +11,9 @@ interface Appointment {
 
 interface Report {
   id: string;
-  actual?: number;
-  conditionFlag?: string;
-  heartRate?: number;
-  predicted?: number;
-  pressure?: number;
-  temperature?: number;
+  reportUrl?: string;
+  appointmentId?: string | null;
+  createdAt?: string | null; // ✅ ISO string from backend
 }
 
 interface PatientDetailData {
@@ -36,6 +34,32 @@ const PatientDetail: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [reports, setReports] = useState<Report[]>([]);
   const [reportsLoading, setReportsLoading] = useState(true);
+
+  const { t, i18n } = useTranslation("patientDetail");
+  const translate = (key: string, fallback: string, vars: any = {}): string =>
+    i18n.language === "tr" ? String(t(key, vars)) : fallback;
+
+  // ✅ Format ISO string → localized date
+  const formatDate = (iso?: string | null) => {
+    if (!iso) return translate("reports.unknownDate", "Unknown date");
+    const date = new Date(iso);
+    return date.toLocaleDateString(i18n.language, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  // ✅ Format appointment Date
+  const formatDateTime = (date: Date) => {
+    return date.toLocaleString(i18n.language, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
 
   useEffect(() => {
     if (!patientId) return;
@@ -74,10 +98,10 @@ const PatientDetail: React.FC = () => {
           phonenumber: json.phonenumber,
           emergencyContact: json.emergencyContact,
           profilePictureUrl: json.profilePictureUrl,
-          appointments
+          appointments,
         });
       } catch (e: any) {
-        setError(e.message || "Error loading patient");
+        setError(e.message || translate("error", "Error loading patient"));
       } finally {
         setLoading(false);
       }
@@ -89,12 +113,13 @@ const PatientDetail: React.FC = () => {
     if (!patientId) return;
     const fetchReports = async () => {
       try {
-        const resp = await fetch(`http://localhost:5000/api/reports/patient/${patientId}`, {
-          credentials: "include"
-        });
+        const resp = await fetch(
+          `http://localhost:5000/api/reports/patient/${patientId}`,
+          { credentials: "include" }
+        );
         if (!resp.ok) throw new Error("Failed to load reports");
         const json = await resp.json();
-        setReports(json);
+        setReports(json); // ✅ backend already sorted
       } catch (e: any) {
         console.error("Failed to fetch reports", e.message);
       } finally {
@@ -110,38 +135,48 @@ const PatientDetail: React.FC = () => {
       setReportsLoading(true);
       const resp = await fetch(`http://localhost:5000/generate_report`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ patientId }),
-        credentials: "include"
+        credentials: "include",
       });
-      if (!resp.ok) throw new Error(`Failed to generate report (${resp.status})`);
-      
+      if (!resp.ok)
+        throw new Error(`Failed to generate report (${resp.status})`);
 
-      alert("Report generated successfully!");
+      alert(
+        translate("messages.generateSuccess", "Report generated successfully!")
+      );
 
       // Refetch reports
-      const reportsResp = await fetch(`http://localhost:5000/api/reports/patient/${patientId}`, {
-        credentials: "include"
-      });
+      const reportsResp = await fetch(
+        `http://localhost:5000/api/reports/patient/${patientId}`,
+        { credentials: "include" }
+      );
       if (!reportsResp.ok) throw new Error("Failed to refresh reports");
       const reportsJson = await reportsResp.json();
       setReports(reportsJson);
-
     } catch (err) {
-  console.error("🔥 FULL ERROR STACK:");
-  console.error(err);  // This will print the full error object / stack trace
-  setError("Failed to generate report");
-}
- finally {
+      console.error("🔥 FULL ERROR STACK:", err);
+      setError(
+        translate("messages.generateError", "Failed to generate report")
+      );
+    } finally {
       setReportsLoading(false);
     }
   };
 
-  if (loading) return <div className="detail-loading">Loading patient...</div>;
-  if (error) return <div className="detail-error">Error: {error}</div>;
-  if (!data) return <div className="detail-error">No patient found.</div>;
+  if (loading)
+    return (
+      <div className="detail-loading">
+        {translate("loading", "Loading patient...")}
+      </div>
+    );
+  if (error) return <div className="detail-error">{`Error: ${error}`}</div>;
+  if (!data)
+    return (
+      <div className="detail-error">
+        {translate("notFound", "No patient found.")}
+      </div>
+    );
 
   const {
     fullName,
@@ -149,16 +184,13 @@ const PatientDetail: React.FC = () => {
     phonenumber,
     emergencyContact,
     profilePictureUrl,
-    appointments
+    appointments,
   } = data;
 
   return (
     <div className="detail-page">
-      <button
-        className="back-btn"
-        onClick={() => navigate("//localhost:5173/patients")}
-      >
-        &larr; Back
+      <button className="back-btn" onClick={() => navigate("/patients")}>
+        {translate("back", "← Back")}
       </button>
 
       <div className="detail-header">
@@ -169,14 +201,20 @@ const PatientDetail: React.FC = () => {
         />
         <div className="detail-info">
           <h2>{fullName}</h2>
-          <p>Email: {email}</p>
-          <p>Phone: {phonenumber}</p>
-          <p>Emergency: {emergencyContact}</p>
+          <p>
+            {translate("email", "Email")}: {email}
+          </p>
+          <p>
+            {translate("phone", "Phone")}: {phonenumber}
+          </p>
+          <p>
+            {translate("emergency", "Emergency")}: {emergencyContact}
+          </p>
         </div>
       </div>
 
       <section className="detail-section">
-        <h3>Upcoming Appointments</h3>
+        <h3>{translate("appointments.title", "Upcoming Appointments")}</h3>
         {appointments.length > 0 ? (
           <div className="appointments-list">
             {appointments.map((a) => (
@@ -188,7 +226,7 @@ const PatientDetail: React.FC = () => {
                 <div className="appt-card">
                   <div className="appt-icon">📅</div>
                   <div className="appt-body">
-                    <p className="appt-date">{a.dateTime.toLocaleString()}</p>
+                    <p className="appt-date">{formatDateTime(a.dateTime)}</p>
                     <p className="appt-desc">{a.description}</p>
                   </div>
                 </div>
@@ -196,21 +234,21 @@ const PatientDetail: React.FC = () => {
             ))}
           </div>
         ) : (
-          <p>No upcoming appointments.</p>
+          <p>{translate("appointments.none", "No upcoming appointments.")}</p>
         )}
       </section>
 
       <section className="detail-section">
-        <h3>Patient Reports</h3>
+        <h3>{translate("reports.title", "Patient Reports")}</h3>
         <button
           onClick={handleGenerateReport}
           className="generate-report-btn"
           disabled={reportsLoading}
         >
-          Generate Report
+          {translate("reports.generate", "Generate Report")}
         </button>
         {reportsLoading ? (
-          <p>Loading reports...</p>
+          <p>{translate("reports.loading", "Loading reports...")}</p>
         ) : reports.length > 0 ? (
           <div className="reports-list">
             {reports.map((r) => (
@@ -219,30 +257,17 @@ const PatientDetail: React.FC = () => {
                 key={r.id}
                 className="report-item"
               >
-                <p><strong>Report ID:</strong> {r.id}</p>
-                {r.conditionFlag && (
-                  <p><strong>Condition:</strong> {r.conditionFlag}</p>
-                )}
-                {r.actual !== undefined && (
-                  <p><strong>Actual:</strong> {r.actual}</p>
-                )}
-                {r.heartRate !== undefined && (
-                  <p><strong>Heart Rate:</strong> {r.heartRate}</p>
-                )}
-                {r.predicted !== undefined && (
-                  <p><strong>Predicted:</strong> {r.predicted}</p>
-                )}
-                {r.pressure !== undefined && (
-                  <p><strong>Pressure:</strong> {r.pressure}</p>
-                )}
-                {r.temperature !== undefined && (
-                  <p><strong>Temperature:</strong> {r.temperature}</p>
-                )}
+                <p>
+                  <strong>
+                    {translate("reports.createdAt", "Created at")}:
+                  </strong>{" "}
+                  {formatDate(r.createdAt)}
+                </p>
               </Link>
             ))}
           </div>
         ) : (
-          <p>No reports available.</p>
+          <p>{translate("reports.none", "No reports available.")}</p>
         )}
       </section>
     </div>
