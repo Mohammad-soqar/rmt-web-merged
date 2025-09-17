@@ -24,7 +24,7 @@ const Sidebar = () => {
       <nav className="sidebar-nav">
         <ul>
           <div>
-            <img src="./src/assets/GLOVELOGO.png" className="sidebar-logo" />
+            <img src="/src/assets/rmtslogo.svg" className="sidebar-logo" />
           </div>
           <li>
             <img src="/user.png" />

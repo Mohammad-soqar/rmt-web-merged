@@ -74,10 +74,18 @@
     position: static;
     justify-content: end;
     align-items:start;
-    max-width: 300px;
+    max-width: 180px;
     height: 100px;
     margin: 3px 0px;
     padding: 5px 15px 0px 1px;
     
   
+  }
+  .tr-button{
+    border : none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+
   }

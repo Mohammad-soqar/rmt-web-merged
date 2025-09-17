@@ -196,7 +196,7 @@ const PatientDetail: React.FC = () => {
       <div className="detail-header">
         <img
           className="detail-avatar"
-          src={profilePictureUrl || "/placeholder-user.png"}
+          src={profilePictureUrl || "/rmtsGlove.svg"}
           alt={fullName}
         />
         <div className="detail-info">
